@@ -11,7 +11,7 @@ plot_*.py
 .env
 
 # Allow specific folders and files
-!Fig/
+!Fig/*
 
 
 
