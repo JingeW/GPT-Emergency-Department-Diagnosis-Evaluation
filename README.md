@@ -17,7 +17,7 @@ ER_PROJECT/
 ├── generated_prompts_text/   # Generated prompt texts
 ├── result_gpt_.../           # Model-specific results
 ├── ER_gpt_o1.py              # Python scripts for calling o1 models
-├── ER_gpt.py                 # Python scripts for calling other gpt models
+├── ER_gpt.py                 # Python scripts for calling other GPT models
 ├── ER_gpt_POT.py             # Python scripts for attempting  panel of thought
 ├── 30_cases_v0.3.xlsx        # Input data: patient cases, symptoms, and lab results
 └── the_three.xlsx            # Data for ablation test
@@ -36,8 +36,8 @@ ER_PROJECT/
 ## Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone <repo_url>
-   cd ER_PROJECT
+    git clone https://github.com/JingeW/GPT-Emergency-Department-Diagnosis-Evaluation.git
+    cd GPT-Emergency-Department-Diagnosis-Evaluation
    ```
 
 2. Install required Python libraries:
@@ -82,7 +82,7 @@ Options:
 ## Results
 - **Accuracy Analysis**: Outputs are stored in `result_gpt` directory.
 
-<img src="Fig/figure1.jpg" width='800'>
+<img src="Fig/figure1.jpg">
 
 ## License
 This project is for research purposes only. It should not be used for real medical diagnoses.
