@@ -82,7 +82,7 @@ Options:
 ## Results
 - **Accuracy Analysis**: Outputs are stored in `result_gpt` directory.
 
-<img src="Fig/Result.jpg" width="700">
+<img src="Fig/Result.jpg" width="800">
 
 ## License
 This project is for research purposes only. It should not be used for real medical diagnoses.
