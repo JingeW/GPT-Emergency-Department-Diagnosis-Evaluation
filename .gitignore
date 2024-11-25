@@ -1,0 +1,17 @@
+# Ignore files by type
+*.json
+*.ai
+*.csv
+*.txt
+*.jpg
+
+# Ignore specific folders and files
+_deprecated/
+plot_*.py
+.env
+
+# Allow specific folders and files
+!Fig/
+
+
+
