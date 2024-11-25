@@ -84,6 +84,6 @@ Options:
 
 <img src="Fig/Result.jpg" width="800">
 
-## License
+## Disclaimer
 This project is for research purposes only. It should not be used for real medical diagnoses.
 
