@@ -18,7 +18,6 @@ ER_PROJECT/
 ├── result_gpt_.../           # Model-specific results
 ├── ER_gpt_o1.py              # Python scripts for calling o1 models
 ├── ER_gpt.py                 # Python scripts for calling other GPT models
-├── ER_gpt_POT.py             # Python scripts for attempting  panel of thought
 ├── 30_cases_v0.3.xlsx        # Input data: patient cases, symptoms, and lab results
 └── the_three.xlsx            # Data for ablation test
 ```
@@ -54,7 +53,6 @@ ER_PROJECT/
 - **Key Scripts**:
   - `ER_gpt.py`: Experiments with OpenAI GPT models.
   - `ER_gpt_o1.py`: Experiments with OpenAI o1 model.
-  - `ER_gpt_POT.py`: Simulates physician-like discussions.
   - `prompt_generation.py`: Generate prompts for experiments.
 
 ### 2. Data Files
