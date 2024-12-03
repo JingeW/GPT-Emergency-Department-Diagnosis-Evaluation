@@ -79,8 +79,9 @@ Options:
 
 ## Results
 - **Accuracy Analysis**: Outputs are stored in `result_gpt` directory.
+- My detailed experiment results can be found in [Mendeley Data](http://doi.org/10.17632/vf64zj89x9.1).
 
-<img src="Fig/Result.jpg" width="800">
+<img src="Fig/figure1.jpg" width="800">
 
 ## Disclaimer
 This project is for research purposes only. It should not be used for real medical diagnoses.

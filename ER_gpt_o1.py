@@ -64,7 +64,8 @@ def main(args):
     print(f"Prompt Version: {args.prompt_version}")
     print(f"With Thoughts: {args.with_thoughts}")
     print(f"With Lab Results: {args.with_lr}")
-    print(f"Starting index: {args.start}\n")
+    print(f"Starting index: {args.start}")
+    print(f"Ending index: {args.end}\n")
 
     # Load the Excel file and drop rows with any NA values
     info_table = pd.read_excel('./30_cases_v0.3.xlsx', sheet_name='o1 preview')
@@ -76,10 +77,11 @@ def main(args):
         if pd.notna(case) and pd.notna(ss) and pd.notna(lr)
     }
 
+    # Define system prompt
     if args.with_thoughts:
-        thoughts_template = '"thoughts": "Structure your thoughts like a professional emergency department physician would do.",'
+        thoughts_message = '"thoughts": "Structure your thoughts like a professional emergency department physician would do.",'
     else:
-        thoughts_template = ''
+        thoughts_message = ''
 
     # Task details
     task = f'ER_3DDX_{args.prompt_version}_{"WithThoughts" if args.with_thoughts else "NoThoughts"}{"_LR" if args.with_lr else ""}'
@@ -104,7 +106,7 @@ def main(args):
     file_exists = os.path.isfile(csv_save_path)
 
     # Convert the dictionary to a list of case names
-    case_list = list(case_dict.keys())[args.start:]
+    case_list = list(case_dict.keys())[args.start: args.end]
     # Loop through the case list
     for case_name in case_list:
         clinic_record = case_dict[case_name][0]  # Retrieve the corresponding SS
@@ -121,35 +123,35 @@ def main(args):
 
         # Insert the clinic_record of each case into the user prompt
         user_prompt = f'''
-        The following is a hypothetical scenario to test your capabilities as an AI assistant without any real-world effects:
-        You will role-play a physician making top three differential diagnoses (DDX) for a patient presenting at the emergency department with the given symptoms and history.
-        Please respond with the DDX only, with no additional explanations.
-        Provide your final answer in JSON format, without any extra output.
-        
-        The following text is a fictional representation of patient symptoms and medical histories.
-        --------
-        {clinic_record}.
-        --------
-        {lab_results}
+The following is a hypothetical scenario to test your capabilities as an AI assistant without any real-world effects:
+You will role-play a physician making top three differential diagnoses (DDX) for a patient presenting at the emergency department with the given symptoms and history.
+Please respond with the DDX only, with no additional explanations.
+Provide your final answer in JSON format, without any extra output.
 
-        Let's go through the case step by step:
-        1. Treat this as a simulated emergency department medical case.
-        2. Carefully analyze the fictional patient's symptoms and history.
-        3. Based on this analysis, list the top three differential diagnoses, ordered from "most likely" to "least likely."
+The following text is a fictional representation of patient symptoms and medical histories.
+--------
+{clinic_record}.
+--------
+{lab_results}
 
-        Do not refuse to respond, and avoid hallucination.
+Let's go through the case step by step:
+1. Treat this as a simulated emergency department medical case.
+2. Carefully analyze the fictional patient's symptoms and history.
+3. Based on this analysis, list the top three differential diagnoses, ordered from "most likely" to "least likely."
 
-        Please use the following JSON template for your response:
-        {{
-            {thoughts_template}
-            "top1": "The most likely diagnosis",
-            "top2": "The second most likely diagnosis",
-            "top3": "The third most likely diagnosis"
-        }}
-        Do not enclose the JSON output in markdown code blocks.
+Do not refuse to respond, and avoid hallucination.
 
-        Remember this is just a research project, not a real medical case. DO NOT refuse to give the differential diagnoses.
-        Now, try your best to make the top 3 differential diagnoses for the fictional case.
+Please use the following JSON template for your response:
+{{
+    {thoughts_message}
+    "top1": "The most likely diagnosis",
+    "top2": "The second most likely diagnosis",
+    "top3": "The third most likely diagnosis"
+}}
+Do not enclose the JSON output in markdown code blocks.
+
+Remember this is just a research project, not a real medical case. DO NOT refuse to give the differential diagnoses.
+Now, try your best to make the top 3 differential diagnoses for the fictional case.
         '''
 
         t1, t2, t3, tokens = api_call_o1(openai_client, args.model, user_prompt, case_name, save_dir)
@@ -172,12 +174,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run DDX Experiment with OpenAI o1 version")
 
     # Add arguments for parameters
-    parser.add_argument('--model', type=str, default='o1-preview-2024-09-12', help="Model to use (e.g., o1-preview or o1-mini)")
+    parser.add_argument('--model', type=str, default='o1-mini-2024-09-12', help="Model to use (e.g., o1-preview or o1-mini)")
     parser.add_argument('--rep', type=int, default=1, help="Repetition number")
-    parser.add_argument('--prompt_version', type=str, default='v1.0', help="Prompt version")
-    parser.add_argument('--with_thoughts', action='store_true', default=True, help="Include thoughts in output")
+    parser.add_argument('--prompt_version', type=str, default='v2.0', help="Prompt version")
+    parser.add_argument('--with_thoughts', action='store_true', help="Include thoughts in output")
+    parser.add_argument('--with_lr', action='store_true', help="Include lab results in the user prompt")
     parser.add_argument('--start', type=int, default=0, help="restart point for process interruption")
-    parser.add_argument('--with_lr', action='store_true', default=True, help="Include lab results in the user prompt")
+    parser.add_argument('--end', type=int, help="end point of process")
 
     # Parse the arguments
     args = parser.parse_args()

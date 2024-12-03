@@ -9,6 +9,9 @@
 _deprecated/
 plot_*.py
 .env
+res.txt
+run_reps.py
+ER_gpt_POT.py
 
 # Allow specific folders and files
 !Fig/*
